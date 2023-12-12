@@ -5,7 +5,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 # Path to desktop directory
-desktop_path = "/home/pi/Desktop/"
+desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
 
 # No-video image URL and filename
 no_video_image_url = "bit.ly/sand-pi-png"
@@ -56,7 +56,7 @@ def download_no_video_image():
 download_no_video_image()
 
 # Start watching for new files on desktop
-event_handler = FileSystemHandler()
+event_handler = FileSystemEventHandler()
 observer = Observer()
 observer.schedule(event_handler, desktop_path, recursive=False)
 observer.start()
