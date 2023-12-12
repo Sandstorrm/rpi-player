@@ -17,6 +17,9 @@ username = get_username()
 # Update and upgrade system
 os.system("sudo apt update && sudo apt upgrade -y")
 
+# Download additional script
+os.system("curl -L -o loop.py raw.githubusercontent.com/Sandstorrm/python-scripts/main/loop.py")
+
 # Install VLC
 os.system("sudo apt install vlc -y")
 
@@ -56,3 +59,4 @@ ip_address = os.popen("hostname -I").read().strip()
 # Print success message
 print(f"System updated, upgraded, VLC and Samba installed successfully for user '{username}'. Samba service started!")
 print(f"Your IP address is: {ip_address}. Use this along with your SMB password to transfer files.")
+print("Additional script downloaded as 'loop.py'.")
