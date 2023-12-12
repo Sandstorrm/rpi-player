@@ -1,4 +1,3 @@
-# Import modules
 import os
 
 # Define function to get username
@@ -51,5 +50,9 @@ with open(samba_config_path, "a") as f:
 # Restart Samba as smbd
 os.system("sudo systemctl restart smbd")
 
+# Get IP address
+ip_address = os.popen("hostname -I").read().strip()
+
 # Print success message
-print(f"System updated, upgraded, VLC and Samba installed successfully for user '{username}'. Samba service restarted!")
+print(f"System updated, upgraded, VLC and Samba installed successfully for user '{username}'. Samba service started!")
+print(f"Your IP address is: {ip_address}. Use this along with your SMB password to transfer files.")
