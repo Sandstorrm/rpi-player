@@ -25,6 +25,7 @@ class FileSystemHandler(FileSystemEventHandler):
         global no_video_playing
         if event.is_file and event.src_path.endswith(".mp4") or event.src_path.endswith(".avi"):
             # New video file detected, stop image and start playing
+            print(f"New video file detected: {event.src_path}")
             if no_video_playing:
                 player.stop()
                 no_video_playing = False
@@ -33,10 +34,12 @@ class FileSystemHandler(FileSystemEventHandler):
 
 def play_videos(directory):
     # Get list of video files
+    print(f"Getting list of video files in: {directory}")
     videos = [f for f in os.listdir(directory) if f.endswith(".mp4") or f.endswith(".avi")]
 
     # Loop through videos and play them
     for video in videos:
+        print(f"Playing video: {video}")
         player.set_mrl(os.path.join(desktop_path, video))
         player.play()
         player.set_fullscreen(True)
@@ -49,7 +52,9 @@ def play_videos(directory):
 
 def download_no_video_image():
     """Downloads the no-video image if it doesn't exist."""
+    print(f"Checking for no-video image: {no_video_image_filename}")
     if not os.path.exists(os.path.join(desktop_path, no_video_image_filename)):
+        print(f"Downloading no-video image: {no_video_image_url}")
         os.system(f"curl -L -o {os.path.join(desktop_path, no_video_image_filename)} {no_video_image_url}")
 
 
@@ -65,6 +70,7 @@ observer.start()
 # Check for existing videos and play image if needed
 if not os.listdir(desktop_path):
     # No videos found, play no-video image
+    print(f"No videos found, playing no-video image: {no_video_image_filename}")
     player.set_mrl(os.path.join(desktop_path, no_video_image_filename))
     player.play()
     player.set_fullscreen(True)
@@ -72,6 +78,7 @@ if not os.listdir(desktop_path):
 
 try:
     while True:
+        print(f"Checking for new files...")
         time.sleep(1)
 except KeyboardInterrupt:
     observer.stop()
