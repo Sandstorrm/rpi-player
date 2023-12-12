@@ -3,6 +3,7 @@ import vlc
 from PIL import Image
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import time
 
 # Path to desktop directory
 desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
