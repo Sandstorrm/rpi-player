@@ -59,4 +59,5 @@ ip_address = os.popen("hostname -I").read().strip()
 # Print success message
 print(f"System updated, upgraded, VLC and Samba installed successfully for user '{username}'. Samba service started!")
 print(f"Your IP address is: {ip_address}. Use this along with your SMB password to transfer files.")
-print("Additional script downloaded as 'loop.py'.")
+print("When you have finished uploading videos you may run 'python loop.py' to play the videos.")
+print("Scripts created by Sandstorm. Enjoy!")
