@@ -21,7 +21,10 @@ os.system("sudo apt update && sudo apt upgrade -y")
 os.system("curl -L -o loop.py raw.githubusercontent.com/Sandstorrm/python-scripts/main/loop.py")
 
 # Install VLC
-os.system("sudo apt install opencv-python python3-watchdog -y")
+os.system("sudo apt install pip python3-watchdog -y")
+
+# Install OpenCV
+os.system("pip install opencv-python")
 
 # Install Samba
 os.system("sudo apt install samba -y")
