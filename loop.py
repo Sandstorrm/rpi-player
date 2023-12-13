@@ -41,6 +41,7 @@ if __name__ == "__main__":
     # Add on_ended event listener to loop the video
     observer.schedule(event_handler, event_handler.on_ended, path=os.path.expanduser('/home/sand/Desktop'), recursive=False)
 
+    # Schedule the event handler for the desired path
     observer.schedule(event_handler, path=os.path.expanduser('/home/sand/Desktop'), recursive=False)
     observer.start()
 
