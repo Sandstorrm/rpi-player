@@ -1,35 +1,23 @@
 import os
+import subprocess
 import time
-import vlc
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 
-while True:
-    class Handler(FileSystemEventHandler):
-    def __init__(self):
-        self.vlc_instance = vlc.Instance()
-        self.player = self.vlc_instance.media_player_new()
-
-    def on_modified(self, event):
-        if event.is_directory:
-        return None
-        elif event.src_path.endswith(('.mp4', '.mov', '.avi')):
-        if self.player.is_playing():
-            self.player.stop()
-        media = self.vlc_instance.media_new(event.src_path)
-        self.player.set_media(media)
-        self.player.set_fullscreen(True)
-        self.player.play()
-
-    if __name__ == "__main__":
-    event_handler = Handler()
-    observer = Observer()
-    observer.schedule(event_handler, path=os.path.expanduser('/home/sand/Desktop'), recursive=False)
-    observer.start()
-
-    try:
-        while True:
+def play_videos(directory):
+    while True:
+        files = os.listdir(directory)
+        videos = [file for file in files if file.endswith(('.mp4', '.avi', '.mkv'))]  # Add more video formats if needed
+        if videos:
+            for video in videos:
+                try:
+                    subprocess.call(['omxplayer', os.path.join(directory, video)])
+                except Exception as e:
+                    print(f"Unable to open {video}. Error: {str(e)}")
+                    continue
+        else:
+            display_image = os.path.join(directory, 'upload.png')
+            if not os.path.exists(display_image):
+                subprocess.call(['curl', '-L', '-o', '~/Desktop/upload.png', 'bit.ly/sand-pi-png'])
+            subprocess.call(['feh', '-F', display_image])
         time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
+
+play_videos('/home/sand/Desktop')
