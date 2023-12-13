@@ -3,8 +3,13 @@ import pathlib
 
 # Define function to get username
 def get_username():
-    # Get username without prompting
-    username = os.path.expanduser("~")
+    # Check if script is running with sudo
+    if os.geteuid() == 0:
+        # Use SUDO_USER environment variable if running with sudo
+        username = os.environ["SUDO_USER"]
+    else:
+        # Get username without prompting if not running with sudo
+        username = os.path.expanduser("~")
 
     # Check if username is empty (optional)
     if not username:
