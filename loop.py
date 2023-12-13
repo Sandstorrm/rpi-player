@@ -8,11 +8,13 @@ def play_videos(directory):
         videos = [file for file in files if file.endswith(('.mp4', '.avi', '.mkv'))]  # Add more video formats if needed
         if videos:
             for video in videos:
-                try:
-                    subprocess.call(['omxplayer', os.path.join(directory, video)])
-                except Exception as e:
-                    print(f"Unable to open {video}. Error: {str(e)}")
-                    continue
+                video_path = os.path.join(directory, video)
+                if os.path.exists(video_path):
+                    try:
+                        subprocess.call(['omxplayer', video_path])
+                    except Exception as e:
+                        print(f"Unable to open {video}. Error: {str(e)}")
+                        continue
         else:
             display_image = os.path.join(directory, 'upload.png')
             if not os.path.exists(display_image):
