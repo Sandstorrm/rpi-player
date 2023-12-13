@@ -18,13 +18,10 @@ username = get_username()
 os.system("sudo apt update && sudo apt upgrade -y")
 
 # Download additional script
-os.system("curl -L -o loop.py raw.githubusercontent.com/Sandstorrm/python-scripts/main/loop.py")
+# os.system("curl -L -o loop.py raw.githubusercontent.com/Sandstorrm/python-scripts/main/loop.py")
 
 # Install VLC
-os.system("sudo apt install pip python3-watchdog -y")
-
-# Install OpenCV
-os.system("pip install opencv-python")
+os.system("sudo apt install vlc python-vlc python3-watchdog -y")
 
 # Install Samba
 os.system("sudo apt install samba -y")
