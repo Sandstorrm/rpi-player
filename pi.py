@@ -1,13 +1,15 @@
 import os
+import pathlib
 
 # Define function to get username
 def get_username():
-    username = input("Please enter your username: ")
+    # Get username without prompting
+    username = os.path.expanduser("~")
 
-    # Check if username is empty
+    # Check if username is empty (optional)
     if not username:
-        print("Username cannot be empty. Please try again.")
-        return get_username()
+        print("Username could not be determined. Please enter your username:")
+        return input()
     else:
         return username
 
@@ -30,24 +32,24 @@ os.system("sudo apt install samba -y")
 os.system(f"sudo smbpasswd -a {username}")
 
 # Edit Samba config file
-samba_config_path = "/etc/samba/smb.conf"
-with open(samba_config_path, "r+") as f:
+samba_config_path = pathlib.Path("/etc/samba/smb.conf")
+with samba_config_path.open("r+") as f:
     content = f.read()
-    new_content = content.replace("username", username)
+    new_content = content.replace("username", str(username))
     f.seek(0)
     f.write(new_content)
     f.truncate()
 
 # Add user specific share configuration
 new_share_config = f"\n[{username}]\n" + \
-f"path = /home/{username}/Desktop\n" + \
-f"valid users = {username}\n" + \
-f"write list = {username}\n" + \
-f"browsable = yes\n" + \
-f"comment = \"smbshare\"\n"
+                   f"path = {pathlib.Path(f'/home/{username}/Desktop')}\n" + \
+                   f"valid users = {username}\n" + \
+                   f"write list = {username}\n" + \
+                   f"browsable = yes\n" + \
+                   f"comment = \"smbshare\"\n"
 
 # Append new share configuration to the Samba config file
-with open(samba_config_path, "a") as f:
+with samba_config_path.open("a") as f:
     f.write(new_share_config)
 
 # Restart Samba as smbd
