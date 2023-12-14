@@ -28,10 +28,10 @@ os.system("sudo apt update && sudo apt upgrade -y")
 # os.system("curl -L -o loop.py raw.githubusercontent.com/Sandstorrm/python-scripts/main/loop.py")
 
 # Install VLC
-os.system("sudo apt install vlc python-vlc python3-watchdog -y")
+os.system("sudo apt install vlc python-vlc python3-watchdog samba samba-common-bin -y")
 
-# Install Samba
-os.system("sudo apt install samba -y")
+# create share directory
+os.system("mkdir /home/{username}/share")
 
 # Add user to Samba
 os.system(f"sudo smbpasswd -a {username}")
@@ -47,7 +47,7 @@ with samba_config_path.open("r+") as f:
 
 # Add user specific share configuration
 new_share_config = f"\n[{username}]\n" + \
-                   f"path = {pathlib.Path(f'/home/{username}/Desktop')}\n" + \
+                   f"path = {pathlib.Path(f'/home/{username}/share')}\n" + \
                    f"valid users = {username}\n" + \
                    f"write list = {username}\n" + \
                    f"browsable = yes\n" + \
