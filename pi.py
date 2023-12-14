@@ -3,7 +3,7 @@ import pathlib
 
 # Check if script is running with sudo
 if os.geteuid() != 0:
-    print("This script requires root privileges. Please run it with sudo.")
+    print("This script requires root privileges. Run it using 'sudo python pi.py'")
     exit(1)
 
 # Define function to get username
