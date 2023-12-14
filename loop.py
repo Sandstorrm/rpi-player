@@ -1,51 +1,44 @@
 import os
-import cv2
-from time import sleep
+import time
+import pathlib
+import subprocess
 
-# Define the directory to scan
-video_dir = "/home/sand/Desktop/"
-upload_image = "/home/sand/Desktop/upload.png"
+def get_username():
+    if os.geteuid() == 0:
+        return os.environ["SUDO_USER"]
+    else:
+        return os.path.expanduser("~")
 
-# Download the upload image if it doesn't exist
-if not os.path.exists(upload_image):
-    os.system(f"curl -L -o {upload_image} bit.ly/sand-pi-png")
+def check_for_video():
+    global current_video
 
-# Define functions to play videos and display images
-def play_video(video_path):
-    cap = cv2.VideoCapture(video_path)
-    if not cap.isOpened():
-        print(f"Unable to open video: {video_path}")
-        return
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-        cv2.imshow("Video", frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    cap.release()
-    cv2.destroyAllWindows()
+    video_dir = pathlib.Path(get_username())
 
-def display_image(image_path):
-    img = cv2.imread(image_path)
-    cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-    cv2.setWindowProperty("Image", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-    cv2.imshow("Image", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    for file in video_dir.glob("*"):
+        if file.name.startswith('.') or file == current_video:
+            continue
+        if file.suffix.lower() in ['.3g2', '.3gp', '.a52', '.aac', '.avi', '.dv', '.flv', '.mka', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogg', '.ogm', '.ogv', '.vob', '.wav', '.webm', '.wmv']:
+            current_video = file
+            return True
+    if current_video and current_video not in video_dir.glob("*"):
+        current_video = None
+    return False
 
-# Start scanning and playing videos in a loop
+def play_video():
+    global current_video
+
+    if current_video:
+        player = subprocess.Popen(["cvlc", "--play-and-exit", "--quiet", str(current_video)])
+        while player.poll() is None:
+            if not current_video.exists():
+                player.terminate()
+                break
+            time.sleep(1)
+
+current_video = None
+
 while True:
-    video_count = 0
-    for filename in os.listdir(video_dir):
-        filepath = os.path.join(video_dir, filename)
-        if os.path.isfile(filepath) and filename.endswith(".mp4"):
-            video_count += 1
-            play_video(filepath)
+    if check_for_video():
+        play_video()
 
-    # If no videos were found, display the upload image
-    if video_count == 0:
-        display_image(upload_image)
-
-    # Sleep for a while before scanning again
-    sleep(5)
+    time.sleep(5)
