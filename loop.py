@@ -10,18 +10,17 @@ def get_username():
         return os.path.expanduser("~")
 
 def check_for_video():
-    global current_video
+    global current_video, video_files, video_index
 
     video_dir = pathlib.Path(get_username())
 
-    for file in video_dir.glob("*"):
-        if file.name.startswith('.') or file == current_video:
-            continue
-        if file.suffix.lower() in ['.3g2', '.3gp', '.a52', '.aac', '.avi', '.dv', '.flv', '.mka', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogg', '.ogm', '.ogv', '.vob', '.wav', '.webm', '.wmv']:
-            current_video = file
-            return True
-    if current_video and current_video not in video_dir.glob("*"):
-        current_video = None
+    if not video_files:  # If video_files list is empty, populate it
+        video_files = [file for file in video_dir.glob("*") if file.suffix.lower() in ['.3g2', '.3gp', '.a52', '.aac', '.avi', '.dv', '.flv', '.mka', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogg', '.ogm', '.ogv', '.vob', '.wav', '.webm', '.wmv']]
+
+    if video_files:
+        current_video = video_files[video_index]
+        video_index = (video_index + 1) % len(video_files)  # Loop back to the first video after the last one
+        return True
     return False
 
 def play_video():
@@ -36,6 +35,8 @@ def play_video():
             time.sleep(1)
 
 current_video = None
+video_files = []
+video_index = 0
 
 while True:
     if check_for_video():
