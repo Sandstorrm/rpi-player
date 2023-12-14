@@ -31,7 +31,7 @@ os.system("sudo apt update && sudo apt upgrade -y")
 os.system("sudo apt install vlc python-vlc python3-watchdog samba samba-common-bin -y")
 
 # create share directory
-os.system("mkdir /home/{username}/share")
+os.system(f"mkdir /home/{username}/share")
 
 # Add user to Samba
 os.system(f"sudo smbpasswd -a {username}")
