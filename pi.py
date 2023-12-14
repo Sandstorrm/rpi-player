@@ -1,6 +1,11 @@
 import os
 import pathlib
 
+# Check if script is running with sudo
+if os.geteuid() != 0:
+    print("This script requires root privileges. Please run it with sudo.")
+    exit(1)
+
 # Define function to get username
 def get_username():
     # Check if script is running with sudo
@@ -69,6 +74,6 @@ os.system("clear")
 # Print success message
 print(f"System updated, upgraded, installed: vlc, python-vlc, python3-watchdog, samba, samba-common-bin. Created and configured samba successfully for user '{username}'. Samba service started!")
 print("Downloaded code: loop.py (created by Sandstorm)")
-print(f"Your IP address is: {ip_address}. Use this along with your SMB password to transfer files.")
+print(f"Your Pi's ip address is: {ip_address}. Use this along with your SMB password to transfer files.")
 print("When you have finished uploading videos you may run 'python loop.py' to play the videos.")
 print("Scripts created by Sandstorm. Enjoy!")
