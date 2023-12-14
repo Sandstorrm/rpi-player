@@ -42,4 +42,4 @@ while True:
     if check_for_video():
         play_video()
 
-    time.sleep(5)
+    time.sleep(1)
