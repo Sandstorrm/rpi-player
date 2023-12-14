@@ -63,8 +63,12 @@ os.system("sudo systemctl restart smbd")
 # Get IP address
 ip_address = os.popen("hostname -I").read().strip()
 
+# clear screen
+os.system("clear")
+
 # Print success message
-print(f"System updated, upgraded, VLC and Samba installed successfully for user '{username}'. Samba service started!")
+print(f"System updated, upgraded, installed: vlc, python-vlc, python3-watchdog, samba, samba-common-bin. Created and configured samba successfully for user '{username}'. Samba service started!")
+print("Downloaded code: loop.py (created by Sandstorm)")
 print(f"Your IP address is: {ip_address}. Use this along with your SMB password to transfer files.")
 print("When you have finished uploading videos you may run 'python loop.py' to play the videos.")
 print("Scripts created by Sandstorm. Enjoy!")
