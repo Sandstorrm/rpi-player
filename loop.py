@@ -14,12 +14,12 @@ def check_for_video():
 
     video_dir = pathlib.Path(get_username())
 
-    if not video_files:  # If video_files list is empty, populate it
+    if not video_files:
         video_files = [file for file in video_dir.glob("*") if file.suffix.lower() in ['.3g2', '.3gp', '.a52', '.aac', '.avi', '.dv', '.flv', '.mka', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogg', '.ogm', '.ogv', '.vob', '.wav', '.webm', '.wmv']]
 
     if video_files:
         current_video = video_files[video_index]
-        video_index = (video_index + 1) % len(video_files)  # Loop back to the first video after the last one
+        video_index = (video_index + 1) % len(video_files)
         return True
     return False
 
