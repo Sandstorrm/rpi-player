@@ -8,7 +8,7 @@ This code is intended to be run on a Raspberry Pi Zero W with a headless (light)
 
    Run the following command to download the code to your Raspberry Pi:
    ```bash
-   curl -L -o pi.py [url here]
+   curl -L -o pi.py https://raw.githubusercontent.com/Sandstorrm/rpi-player/main/pi.py
 2. **Run the Program:**
 
    Execute the following command to run the program:
