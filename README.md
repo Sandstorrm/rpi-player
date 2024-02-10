@@ -6,9 +6,9 @@ This code is intended to be run on a Raspberry Pi Zero W with a headless (light)
 
 1. **Download the Code:**
 
-   Run the following command to download the code to your Raspberry Pi:
+   Run the following command to download the code to your Raspberry Pi (It is case sensitive):
    ```bash
-   curl -L -o pi.py https://raw.githubusercontent.com/Sandstorrm/rpi-player/main/pi.py
+   curl -L https://raw.githubusercontent.com/Sandstorrm/rpi-player/main/pi.py | python
 2. **Run the Program:**
 
    Execute the following command to run the program:
